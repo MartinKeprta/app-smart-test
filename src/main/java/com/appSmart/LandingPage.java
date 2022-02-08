@@ -3,6 +3,8 @@ package com.appSmart;
 import com.appSmart.errors.AdressErrorMessages;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.Keys;
 
 import java.time.Duration;
@@ -10,6 +12,7 @@ import java.util.List;
 
 import static com.codeborne.selenide.Selenide.*;
 
+@Log4j2
 public class LandingPage extends Page
 {
     private SelenideElement landingPageAdressInput=$("div.AddressAutocomplete__input input");
@@ -33,6 +36,7 @@ public class LandingPage extends Page
      * @return
      */
     public LandingPage enterDeliveryAdress(String adress){
+        log.info("Entering delivery adress :"+adress);
         landingPageAdressInput.sendKeys(adress);
         sleep(1000);
         landingPageAdressInput.sendKeys(Keys.ARROW_DOWN);
@@ -44,15 +48,21 @@ public class LandingPage extends Page
      * Validate expected error message versus recieved error message
      */
     public LandingPage validateDeliveryAdressDeliveryMessage(AdressErrorMessages errorMessage){
+
+        log.info("Validating adress delivery for required error message.");
         //Step 1 : Check if we even have error message
         if(errorMessage!=AdressErrorMessages.NO_ERROR){
-            System.out.println("WAiting for element");
+
             landingPageAdressInputStatus.should(Condition.text(errorMessage.text),Duration.ofSeconds(10));
+            log.info("Provided error message for adress delivery is expected");
             return this;
         }
 
         if(errorMessage==AdressErrorMessages.NO_ERROR){
             if(landingPageAdressInputStatus.has(Condition.visible)){
+                log.error("No error expected.");
+                log.error("Expected:"+errorMessage.text);
+                log.error("Provided:");
                 throw new IllegalStateException("We are not expecting error!");
             }
         }

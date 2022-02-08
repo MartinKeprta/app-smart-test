@@ -44,7 +44,8 @@ dependencies {
     implementation("com.konghq:unirest-java:4.0.0-RC2")
     implementation("io.rest-assured:rest-assured:4.5.0")
     implementation("org.hamcrest:hamcrest-all:1.3")
-    implementation("org.apache.logging.log4j:log4j-core:2.17.1")
+    implementation("org.apache.logging.log4j:log4j-api:2.16.0")
+    implementation("org.apache.logging.log4j:log4j-core:2.16.0")
     testImplementation("org.slf4j:slf4j-simple:2.0.0-alpha6")
 }
 
