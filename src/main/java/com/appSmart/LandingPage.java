@@ -48,6 +48,13 @@ public class LandingPage extends Page
         if(errorMessage!=AdressErrorMessages.NO_ERROR){
             System.out.println("WAiting for element");
             landingPageAdressInputStatus.should(Condition.text(errorMessage.text),Duration.ofSeconds(10));
+            return this;
+        }
+
+        if(errorMessage==AdressErrorMessages.NO_ERROR){
+            if(landingPageAdressInputStatus.has(Condition.visible)){
+                throw new IllegalStateException("We are not expecting error!");
+            }
         }
         return this;
     }

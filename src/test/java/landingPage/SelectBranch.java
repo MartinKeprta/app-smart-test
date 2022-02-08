@@ -2,7 +2,7 @@ package landingPage;
 
 import com.appSmart.LandingPage;
 import com.appSmart.errors.AdressErrorMessages;
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.Test;
 
 public class SelectBranch {
 

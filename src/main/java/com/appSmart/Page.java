@@ -34,25 +34,26 @@ public class Page {
     }
 
     public Double extractCostFromItem(String item){
-        Matcher m = costFromItem.matcher(item);
+        Matcher m = costFromItem.matcher(item.replace(",","."));
         if(m.find()){
+            System.out.println("Cost modified from"+item+", to "+m.group(0));
             return Double.valueOf(m.group(0));
         }
 
         throw new IllegalStateException("Number not found or in invalid state");
     }
 
-    public Integer[] extractMinMaxFromItem(String itemText){
-        Matcher m = costMinMaxFromItem.matcher(itemText);
+    public Integer[] extractMinMaxFromItem(String item){
+        Matcher m = costMinMaxFromItem.matcher(item.replace(",","."));
         if(m.find()){
             return new Integer[]{(Integer.valueOf(m.group(0))),Integer.valueOf(m.group(1))};
         }
         throw new IllegalStateException("Number not found or in invalid state");
     }
 
-    public Integer extractAmmountFromItem(String itemText){
-        System.out.println(itemText);
-        Matcher m = costFromItem.matcher(itemText);
+    public Integer extractAmmountFromItem(String item){
+        System.out.println(item);
+        Matcher m = costFromItem.matcher(item.replace(",","."));
         if(m.find()){
            return Integer.valueOf(m.group(0));
         }

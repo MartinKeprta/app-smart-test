@@ -4,20 +4,29 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.conditions.localstorage.Item;
+import lombok.extern.flogger.Flogger;
+import lombok.extern.java.Log;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
+
+import java.util.logging.Level;
 
 import static com.codeborne.selenide.Selenide.*;
 
+@Slf4j
 public class ItemCustomizationPage extends Page{
 
     private SelenideElement itemTitle=$("h2.modal-title div");
     private ElementsCollection itemCustomizationOptions=$$("[data-testId=extra-group]");
+    private ElementsCollection itemCustomizationOptionsSize=$$("[data-testId=extra-product-size]");
     private ElementsCollection itemCustomizationOptionsIngredients=$$("[data-testId=extra-ingredient]");
+    private SelenideElement itemCustomizationCost=$("[data-testId=extras-order-btn]");
     private double itemCostTotal=0;
     private SelenideElement itemSelectedCustomizationOption;
     private SelenideElement itemSelectedCustomizationIngredient;
     public ItemCustomizationPage(){
-
+        itemCostTotal=extractCostFromItem(itemCustomizationCost.text());
     }
 
     public ItemCustomizationPage(String productTitle){
@@ -25,7 +34,20 @@ public class ItemCustomizationPage extends Page{
     }
     //This is for Pizza only!
     public ItemCustomizationPage pickSize(String size){
+        for(SelenideElement pizzaSizeElement:itemCustomizationOptionsSize){
+            if(pizzaSizeElement.find("div.size-text").equals(size)){
+                //Click
+                pizzaSizeElement.click();
+                //Modify cost
+                itemCostTotal=extractCostFromItem(pizzaSizeElement.find("div.cost").text());
+                return this;
+
+            }
+        }
         return this;
+    }
+    public ItemCustomizationPage pickCustomizationOption(String customizationCategory,String customizationIngredient,int ammount){
+      return pickCustomizationOption(customizationCategory,customizationIngredient,ammount,false);
     }
     public ItemCustomizationPage pickCustomizationOption(String customizationCategory,String customizationIngredient,int ammount,Boolean free){
 
@@ -117,11 +139,17 @@ public class ItemCustomizationPage extends Page{
      * @param number
      */
     private void modifyPrice(Double number,Boolean add){
+
         if(add){
             this.itemCostTotal=this.itemCostTotal+number;
         }else {
             this.itemCostTotal=this.itemCostTotal-number;
         }
         System.out.println("Total price for item now is "+number);
+    }
+
+    public ItemCustomizationPage assertCost(){
+        //Assertions.assertEquals(itemCostTotal,extractCostFromItem(itemCustomizationCost.text()));
+        return this;
     }
 }
