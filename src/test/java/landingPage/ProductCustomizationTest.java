@@ -72,8 +72,8 @@ public class ProductCustomizationTest {
                 .assertAmmountOfItemsInCategory()
                 .assertCost();
     }
-
     @Test
+    @Description("Test price calculation based on pizza size")
     public void testPriceCalculationForPrice(){
         new LandingPage(true)
                 .chooseBranch("Enjoy+Pizza+Bremen")
