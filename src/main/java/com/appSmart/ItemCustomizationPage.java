@@ -86,9 +86,6 @@ public class ItemCustomizationPage extends Page{
                                     modifyPrice(ingredient.find("div.zero-price").getText(),false);
                                 }
                             }
-
-
-
                         }
                         //Expected point of return
                         return this;
@@ -103,15 +100,17 @@ public class ItemCustomizationPage extends Page{
         throw new NullPointerException("Unable to find customization category:"+customizationCategory);
     }
     //This method can be called only after adding / removing items from selected category
-    public ItemCustomizationPage assertAmmountOfItemsInCategory(int expectedAmmount){
+    public ItemCustomizationPage assertAmmountOfItemsInCategory(){
         Integer[] minMax=extractMinMaxFromItem(itemSelectedCustomizationOption.find("div.title").getText());
         int currentItemsCurrent=minMax[0];
         int currentItemsMaximum=minMax[1];
-        //I mean... there is no way that this should happen... but for all cases:-D
+        log.info("Checking total ammount of items in category:"+currentItemsCurrent+ " /"+currentItemsMaximum);
         if(currentItemsCurrent>currentItemsMaximum){
+            log.error("Amount of items is higher then maximum allowed");
             throw new IllegalStateException("User was able to insert more item then allowed into category");
         }
         if(currentItemsCurrent<0){
+            log.error("Amount of items is lower then 0");
             throw new IllegalStateException("User was able somehow god knows how insert negative value of items into category");
         }
 

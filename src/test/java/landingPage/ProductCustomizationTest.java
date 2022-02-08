@@ -1,6 +1,7 @@
 package landingPage;
 
 import com.appSmart.LandingPage;
+import io.qameta.allure.Description;
 import org.testng.annotations.Test;
 
 public class ProductCustomizationTest {
@@ -16,10 +17,11 @@ public class ProductCustomizationTest {
                 .pickCustomizationOption("Gratis-Zutaten","Oregano",2,true)
                 .assertAmmounOfIngerdientsInCategory(2)
                 .pickCustomizationOption("Gratis-Zutaten","scharf",1,true)
-                .assertAmmountOfItemsInCategory(4);
+                .assertAmmountOfItemsInCategory();
     }
 
     @Test
+    @Description("Adds and removes free items from category and verifies the limit")
     public void testAddAndRemoveFreeItems(){
         new LandingPage(true)
                 .chooseBranch("Enjoy+Pizza+Bremen")
@@ -28,10 +30,25 @@ public class ProductCustomizationTest {
                 .pickCustomizationOption("Gratis-Zutaten","Knoblauch",2,true)
                 .assertAmmounOfIngerdientsInCategory(2)
                 .pickCustomizationOption("Gratis-Zutaten","Knoblauch",-2,true)
-                .assertAmmountOfItemsInCategory(0);
+                .assertAmmountOfItemsInCategory();
     }
 
     @Test
+    @Description("Adds and removes free items from category and verifies the limit")
+    public void testAddItemsOverLimit(){
+        new LandingPage(true)
+                .chooseBranch("Enjoy+Pizza+Bremen")
+                .selectCategory("Pizza")
+                .pickCustomizableItem("Pizza Salami")
+                .pickCustomizationOption("Gratis-Zutaten","Knoblauch",10,true)
+                .assertAmmounOfIngerdientsInCategory(4)
+                .assertAmmountOfItemsInCategory();
+    }
+
+
+
+    @Test
+    @Description("Adds ingredients to category and verifies if price is correctly calculated")
     public void testPriceCalculationForIngredidients(){
         new LandingPage(true)
                 .chooseBranch("Enjoy+Pizza+Bremen")
@@ -43,6 +60,7 @@ public class ProductCustomizationTest {
     }
 
     @Test
+    @Description("Adds and removes ingredients from category and verifies if price is correctly calculated")
     public void testPriceCalculationForAddAndRemoveIngredients(){
         new LandingPage(true)
                 .chooseBranch("Enjoy+Pizza+Bremen")
@@ -51,7 +69,7 @@ public class ProductCustomizationTest {
                 .pickCustomizationOption("Extrazutaten 1","Basilikum",2,false)
                 .assertAmmounOfIngerdientsInCategory(2)
                 .pickCustomizationOption("Extrazutaten 1","Ei",2,false)
-                .assertAmmountOfItemsInCategory(0)
+                .assertAmmountOfItemsInCategory()
                 .assertCost();
     }
 

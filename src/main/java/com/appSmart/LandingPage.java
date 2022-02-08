@@ -60,9 +60,8 @@ public class LandingPage extends Page
 
         if(errorMessage==AdressErrorMessages.NO_ERROR){
             if(landingPageAdressInputStatus.has(Condition.visible)){
-                log.error("No error expected.");
                 log.error("Expected:"+errorMessage.text);
-                log.error("Provided:");
+                log.error("Provided:"+landingPageAdressInputStatus.text());
                 throw new IllegalStateException("We are not expecting error!");
             }
         }

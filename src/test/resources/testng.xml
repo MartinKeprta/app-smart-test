@@ -3,6 +3,7 @@
     <test name="Regression1">
         <classes>
             <class name="landingPage.DeliveryAdressTest"/>
+            <class name="landingPage.ProductCustomizationTest"/>
         </classes>
     </test>
 </suite>
